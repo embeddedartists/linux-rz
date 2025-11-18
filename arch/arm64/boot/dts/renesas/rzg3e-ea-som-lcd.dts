@@ -1,0 +1,124 @@
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+/*
+ * Device Tree Source for the Embedded Artists RZ/G3E SOM Board
+ *
+ * Copyright (C) 2025 Embedded Artists AB.
+ */
+
+/dts-v1/;
+#include "rzg3e-ea-som.dtsi"
+
+/ {
+	reg_rgb_bl: regulator-rgb-bl {
+		compatible = "regulator-fixed";
+
+		regulator-name = "RGB BL";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+
+		gpios = <&pinctrl RZV2H_GPIO(G, 7) GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+	};
+
+	panel_rgb {
+		/*compatible = "newhaven,nhd-4.3-480272ef-atxl";*/
+		compatible = "newhaven,nhd_5.0_800480tf-atxl";
+		power-supply = <&reg_rgb_bl>;
+
+		port {
+			panel_in_rgb: endpoint {
+				remote-endpoint = <&du_out_rgb>;
+			};
+		};
+	};
+};
+
+&pcal6524_u6 {
+	hog_RGB_BL_PWR {
+		gpio-hog;
+		gpios = <6 0>;
+		output-high;
+	};
+};
+
+&pcal6524_onboard {
+	hog_GPIO_G { /* GPIO_G-LCD_DISP_EN */
+		gpio-hog;
+		gpios = <8 0>;
+		output-high;
+	};
+};
+
+&pinctrl {
+	du_pins: du {
+		clk {
+			pinmux = <RZV2H_PORT_PINMUX(5, 0, 1)>; /* LCD_CLK */
+			renesas,output-impedance = <3>;
+		};
+
+		sync {
+			pinmux = <RZV2H_PORT_PINMUX(5, 1, 1)>, /* LCD_HSYNC */
+				 <RZV2H_PORT_PINMUX(5, 2, 1)>; /* LCD_VSYNC */
+		};
+
+		de {
+			pinmux = <RZV2H_PORT_PINMUX(5, 3, 1)>; /* LCD_DE */
+		};
+
+		data {
+			pinmux = <RZV2H_PORT_PINMUX(5, 4, 1)>, /* LCD_G7 */
+				 <RZV2H_PORT_PINMUX(5, 5, 1)>, /* LCD_B7 */
+				 <RZV2H_PORT_PINMUX(5, 6, 1)>, /* LCD_R7 */
+				 <RZV2H_PORT_PINMUX(6, 0, 1)>, /* LCD_G6 */
+				 <RZV2H_PORT_PINMUX(6, 1, 1)>, /* LCD_B6 */
+				 <RZV2H_PORT_PINMUX(6, 2, 1)>, /* LCD_R6 */
+				 <RZV2H_PORT_PINMUX(6, 3, 1)>, /* LCD_G5 */
+				 <RZV2H_PORT_PINMUX(6, 4, 1)>, /* LCD_B5 */
+				 <RZV2H_PORT_PINMUX(6, 5, 1)>, /* LCD_R5 */
+				 <RZV2H_PORT_PINMUX(6, 6, 1)>, /* LCD_G4 */
+				 <RZV2H_PORT_PINMUX(7, 0, 1)>, /* LCD_B4 */
+				 <RZV2H_PORT_PINMUX(7, 1, 1)>, /* LCD_R4 */
+				 <RZV2H_PORT_PINMUX(7, 2, 1)>, /* LCD_G3 */
+				 <RZV2H_PORT_PINMUX(7, 3, 1)>, /* LCD_B3 */
+				 <RZV2H_PORT_PINMUX(7, 4, 1)>, /* LCD_R3 */
+				 <RZV2H_PORT_PINMUX(7, 5, 1)>, /* LCD_G2 */
+				 <RZV2H_PORT_PINMUX(7, 6, 1)>, /* LCD_B2 */
+				 <RZV2H_PORT_PINMUX(7, 7, 1)>, /* LCD_R2 */
+				 <RZV2H_PORT_PINMUX(8, 0, 1)>, /* LCD_G1 */
+				 <RZV2H_PORT_PINMUX(8, 1, 1)>, /* LCD_B1 */
+				 <RZV2H_PORT_PINMUX(8, 2, 1)>, /* LCD_R1 */
+				 <RZV2H_PORT_PINMUX(8, 3, 1)>, /* LCD_G0 */
+				 <RZV2H_PORT_PINMUX(8, 4, 1)>, /* LCD_B0 */
+				 <RZV2H_PORT_PINMUX(8, 5, 1)>; /* LCD_R0 */
+		};
+	};
+};
+
+&du {
+	pinctrl-0 = <&du_pins>;
+	pinctrl-names = "default";
+
+	ports {
+		port@1 {
+			du_out_rgb: endpoint {
+				remote-endpoint = <&panel_in_rgb>;
+			};
+		};
+	};
+};
+
+&i2c3 {
+	/* Capacitive touch controller */
+	ft5x06_ts: touchscreen@38 {
+		compatible = "edt,edt-ft5406";
+		reg = <0x38>;
+		interrupt-parent = <&pcal6524_u6>;
+		interrupts = <8 IRQ_TYPE_LEVEL_HIGH>; /* I2C_GPIO1_IO1_0-RGB_CTP_IRQ */
+
+		touchscreen-size-x = <800>;
+		touchscreen-size-y = <480>;
+		touchscreen-inverted-x;
+		touchscreen-inverted-y;
+	};
+
+};

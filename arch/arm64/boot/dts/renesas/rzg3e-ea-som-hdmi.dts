@@ -1,0 +1,105 @@
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+/*
+ * Device Tree Source for the Embedded Artists RZ/G3E SOM Board
+ *
+ * Copyright (C) 2025 Embedded Artists AB.
+ */
+
+/dts-v1/;
+#include "rzg3e-ea-som.dtsi"
+
+/ {
+	dsi-to-hdmi-out {
+		compatible = "hdmi-connector";
+		type = "d";
+
+		port {
+			dsi_to_hdmi_out: endpoint {
+				remote-endpoint = <&adv7535_out>;
+			};
+		};
+	};
+
+};
+
+&sound_card {
+	dais = <&rsnd_port0	/* DA7211 */
+		&rsnd_port1	/* HDMI0  */
+		>;
+};
+
+&dsi0 {
+	status = "okay";
+
+	ports {
+		port@1 {
+			dsi0_out: endpoint {
+				remote-endpoint = <&adv7535_in>;
+				data-lanes = <1 2 3 4>;
+			};
+		};
+	};
+};
+
+&rcar_sound {
+	rsnd_port1: port@1 {
+		reg = <1>;
+		rsnd_endpoint1: endpoint {
+			remote-endpoint = <&adv7535_codec_ep>;
+			dai-format = "i2s";
+			bitclock-master = <&rsnd_endpoint1>;
+			frame-master = <&rsnd_endpoint1>;
+
+			playback = <&ssi3>;
+		};
+	};
+};
+
+&i2c3 { /* "GP", I2C-B */
+	adv7535: hdmi@3d {
+
+		compatible = "adi,adv7535";
+		reg = <0x3d>, <0x2d>, <0x4d>, <0x5d>;
+		reg-names = "main", "cec", "edid", "packet";
+
+		clocks = <&osc1>;
+		clock-names = "cec";
+		avdd-supply = <&reg_1p8v>;
+		dvdd-supply = <&reg_1p8v>;
+		pvdd-supply = <&reg_1p8v>;
+		a2vdd-supply = <&reg_1p8v>;
+		v3p3-supply = <&reg_3p3v>;
+		v1p2-supply = <&reg_1p8v>;
+
+		adi,dsi-lanes = <4>;
+
+		/*interrupt-parent = <&pcal6524_u6>;
+		interrupts = <10 IRQ_TYPE_EDGE_FALLING>;*/
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+				adv7535_in: endpoint@0 {
+					remote-endpoint = <&dsi0_out>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+				adv7535_out: endpoint@1 {
+					remote-endpoint = <&dsi_to_hdmi_out>;
+				};
+			};
+
+			port@2 {
+				reg = <2>;
+				adv7535_codec_ep: endpoint {
+					remote-endpoint = <&rsnd_endpoint1>;
+				};
+			};
+		};
+	};
+};

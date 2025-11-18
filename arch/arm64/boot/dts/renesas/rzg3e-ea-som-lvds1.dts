@@ -1,0 +1,57 @@
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+/*
+ * Device Tree Source for the Embedded Artists RZ/G3E SOM Board
+ *
+ * Copyright (C) 2025 Embedded Artists AB.
+ */
+
+/dts-v1/;
+#include "rzg3e-ea-som.dtsi"
+
+/ {
+	panel {
+		compatible = "mitsubishi,aa104xd12", "panel-lvds";
+
+		width-mm = <210>;
+		height-mm = <158>;
+		data-mapping = "jeida-18";
+		/*backlight = <&backlight>;*/
+
+
+		panel-timing {
+			/* 1920x1080 @60Hz */
+			clock-frequency = <148500000>;
+			hactive = <1920>;
+			vactive = <1080>;
+			hsync-len = <44>;
+			hfront-porch = <88>;
+			hback-porch = <148>;
+			vfront-porch = <4>;
+			vback-porch = <36>;
+			vsync-len = <5>;
+		};
+
+		port {
+			panel_in: endpoint {
+				remote-endpoint = <&lvds1_out>;
+			};
+		};
+	};
+};
+
+&lvds1 {
+	/delete-property/ renesas,companion;
+	status = "okay";
+
+	ports {
+		port@1 {
+			lvds1_out: endpoint {
+				remote-endpoint = <&panel_in>;
+			};
+		};
+	};
+};
+
+&lvds {
+	status = "okay";
+};

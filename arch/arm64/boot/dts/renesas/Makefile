@@ -91,6 +91,10 @@ dtb-$(CONFIG_ARCH_R9A09G011) += r9a09g011-v2mevk2.dtb
 
 dtb-$(CONFIG_ARCH_R9A09G047) += r9a09g047e57-smarc.dtb
 dtb-$(CONFIG_ARCH_R9A09G047) += r9a09g047e57-dev.dtb
+dtb-$(CONFIG_ARCH_R9A09G047) += rzg3e-ea-som-hdmi.dtb
+dtb-$(CONFIG_ARCH_R9A09G047) += rzg3e-ea-som-lcd.dtb
+dtb-$(CONFIG_ARCH_R9A09G047) += rzg3e-ea-som-lvds0.dtb
+dtb-$(CONFIG_ARCH_R9A09G047) += rzg3e-ea-som-lvds1.dtb
 
 dtb-$(CONFIG_ARCH_R9A09G057) += r9a09g057h4-evk-ver1.dtb
 
