@@ -187,6 +187,12 @@
 		        wakeup-source;
 		};
 	};
+
+	ox01f10_fixed_clk: osc25250-clk {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <24000000>;
+	};
 };
 
 &pinctrl {
@@ -653,6 +659,23 @@
 			reg = <0xfa 6>;  /* offset 0xFA, length 6 bytes */
 		};
 	};
+
+	ox01f10_csi2: ox01f10_csi2@36 {
+		compatible = "ovti,ox01f10";
+		reg = <0x36>;
+		clock-names = "xclk";
+		clocks = <&ox01f10_fixed_clk>;
+		clock-frequency = <24000000>;
+		pwdn-gpios = <&pcal6524_u6 0 GPIO_ACTIVE_HIGH>;
+
+		port {
+			ox01f10_to_csi2: endpoint {
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+				remote-endpoint = <&csi2_in>;
+			};
+		};
+	};
 };
 
 &eth0 {
@@ -876,6 +899,20 @@
 
 &cru {
 	status = "okay";
+};
+
+&csi2 {
+	status = "okay";
+
+	ports {
+		port {
+			csi2_in: endpoint {
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+				remote-endpoint = <&ox01f10_to_csi2>;
+			};
+		};
+	};
 };
 
 &canfd {

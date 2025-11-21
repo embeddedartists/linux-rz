@@ -776,6 +776,21 @@ config VIDEO_SR030PC30
 	help
 	  This driver supports SR030PC30 VGA camera from Siliconfile
 
+config VIDEO_OX01F10
+	tristate "OmniVision OX01F10 sensor support"
+	depends on OF
+	depends on I2C && VIDEO_DEV
+	select MEDIA_CONTROLLER
+	select VIDEO_V4L2_SUBDEV_API
+	select V4L2_FWNODE
+	help
+	  This is a Video4Linux2 sensor driver for the OmniVision
+	  OX01F10 camera.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called OX01F10.
+
+
 config VIDEO_VS6624
 	tristate "ST VS6624 sensor support"
 	depends on VIDEO_DEV && I2C
