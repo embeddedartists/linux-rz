@@ -25,8 +25,8 @@
 		ethernet0 = &eth0;
 		ethernet1 = &eth1;
 		serial0 = &scif;
-		serial1 = &sci4;
-		serial2 = &sci9;
+		serial1 = &sci2;
+		serial2 = &sci7;
 	};
 
 	keys {
@@ -197,11 +197,6 @@
 
 &pinctrl {
 
-	i2c1_pins: i2c1 {
-		pinmux = <RZV2H_PORT_PINMUX(L, 2, 4)>, /* SCL */
-			 <RZV2H_PORT_PINMUX(L, 3, 4)>; /* SDA */
-	};
-
 	sound_clk_pins: sound_clk {
 		pinmux = <RZV2H_PORT_PINMUX(4, 2, 8)>, /* AUDIO_CLKB */
 			 <RZV2H_PORT_PINMUX(4, 3, 8)>; /* AUDIO_CLKC */
@@ -221,14 +216,14 @@
 		};
 	};
 
+	i2c1_pins: i2c1 {
+		pinmux = <RZV2H_PORT_PINMUX(L, 2, 4)>, /* SCL */
+			 <RZV2H_PORT_PINMUX(L, 3, 4)>; /* SDA */
+	};
+
 	i2c3_pins: i2c3 {
 		pinmux = <RZV2H_PORT_PINMUX(3, 6, 1)>, /* SCL */
 			 <RZV2H_PORT_PINMUX(3, 7, 1)>; /* SDA */
-	};
-
-	i2c7_pins: i2c7 {
-		pinmux = <RZV2H_PORT_PINMUX(A, 4, 4)>, /* SCL */
-			 <RZV2H_PORT_PINMUX(A, 5, 4)>; /* SDA */
 	};
 
 	i2c8_pins: i2c8 {
@@ -237,11 +232,11 @@
 	};
 
 	pcal6524_u5_pins: pcal6524_u5 {
-		pinmux = <RZV2H_PORT_PINMUX(1, 7, 15)>; /* ICU IRQ 4 */
+		pinmux = <RZV2H_PORT_PINMUX(1, 7, 15)>; /* ICU IRQ 4 - GPIO-A */
 	};
 
 	pcal6524_u6_pins: pcal6524_u6 {
-		pinmux = <RZV2H_PORT_PINMUX(K, 0, 15)>; /* ICU IRQ 7 */
+		pinmux = <RZV2H_PORT_PINMUX(K, 0, 15)>; /* ICU IRQ 7 - GPIO-B */
 	};
 
 	/* Need to use PA7 as a gpio and not ICU IRQ2 as that is used by
@@ -256,7 +251,7 @@
 	eth0_pins: eth0 {
 		pinmux = <RZV2H_PORT_PINMUX(A, 1, 1)>, /* MDC */
 			 <RZV2H_PORT_PINMUX(A, 0, 1)>, /* MDIO */
-			 <RZV2H_PORT_PINMUX(C, 2, 15)>, /* PHY_INTR */
+			 <RZV2H_PORT_PINMUX(C, 2, 15)>,/* PHY_INTR */
 			 <RZV2H_PORT_PINMUX(C, 1, 1)>, /* RXD3 */
 			 <RZV2H_PORT_PINMUX(C, 0, 1)>, /* RXD2 */
 			 <RZV2H_PORT_PINMUX(B, 7, 1)>, /* RXD1 */
@@ -274,7 +269,7 @@
 	eth1_pins: eth1 {
 		pinmux = <RZV2H_PORT_PINMUX(D, 1, 1)>, /* MDC */
 			 <RZV2H_PORT_PINMUX(D, 0, 1)>, /* MDIO */
-			 <RZV2H_PORT_PINMUX(F, 2, 15)>, /* PHY_INTR */
+			 <RZV2H_PORT_PINMUX(F, 2, 15)>,/* PHY_INTR */
 			 <RZV2H_PORT_PINMUX(F, 1, 1)>, /* RXD3 */
 			 <RZV2H_PORT_PINMUX(F, 0, 1)>, /* RXD2 */
 			 <RZV2H_PORT_PINMUX(E, 7, 1)>, /* RXD1 */
@@ -342,13 +337,13 @@
 
 	canfd_pins: canfd {
 		can1_pins: can1 {
-			pinmux = <RZV2H_PORT_PINMUX(L, 2, 3)>, /* RX */
-				 <RZV2H_PORT_PINMUX(L, 3, 3)>; /* TX */
+			pinmux = <RZV2H_PORT_PINMUX(D, 6, 3)>, /* RX */
+				 <RZV2H_PORT_PINMUX(D, 7, 3)>; /* TX */
 		};
 
-		can4_pins: can4 {
-			pinmux = <RZV2H_PORT_PINMUX(5, 2, 3)>, /* RX */
-				 <RZV2H_PORT_PINMUX(5, 3, 3)>; /* TX */
+		can5_pins: can5 {
+			pinmux = <RZV2H_PORT_PINMUX(4, 4, 3)>, /* RX */
+				 <RZV2H_PORT_PINMUX(4, 5, 3)>; /* TX */
 		};
 	};
 
@@ -370,15 +365,15 @@
 		};
 	};
 
-	sci4_pins: sci4 {
-		pinmux = <RZV2H_PORT_PINMUX(7, 7, 5)>, /* SCI4_TXD_MOSI_SDA */
-			 <RZV2H_PORT_PINMUX(7, 6, 5)>; /* SCI4_RXD_MISO_SCL */
+	sci2_pins: sci2 {
+		pinmux = <RZV2H_PORT_PINMUX(1, 1, 1)>, /* SCI2_TXD_MOSI_SDA */
+			 <RZV2H_PORT_PINMUX(1, 0, 1)>; /* SCI2_RXD_MISO_SCL */
 		bias-pull-up;
 	};
 
-	sci9_pins: sci9 {
-		pinmux = <RZV2H_PORT_PINMUX(8, 3, 5)>, /* SCI9_TXD_MOSI_SDA */
-			 <RZV2H_PORT_PINMUX(8, 2, 5)>; /* SCI9_RXD_MISO_SCL */
+	sci7_pins: sci7 {
+		pinmux = <RZV2H_PORT_PINMUX(A, 5, 5)>, /* SCI7_TXD_MOSI_SDA */
+			 <RZV2H_PORT_PINMUX(A, 4, 5)>; /* SCI7_RXD_MISO_SCL */
 		bias-pull-up;
 	};
 
@@ -386,15 +381,6 @@
 		nmi {
 			pinmux = <RZV2H_PORT_PINMUX(S, 0, 0)>; /* NMI */
 		};
-	};
-
-	i2c0_pins: i2c0 {
-			pinmux = <RZV2H_PORT_PINMUX(D, 4, 4)>, /* SCL */
-				 <RZV2H_PORT_PINMUX(D, 5, 4)>; /* SDA */
-	};
-
-	pcie0_pins: pcie0 {
-		pinmux = <RZV2H_PORT_PINMUX(G, 7, 1)>; /* PCIE_SLOT_RST */
 	};
 
 	usb20_pins: usb20 {
@@ -418,6 +404,10 @@
 			 <RZV2H_PORT_PINMUX(3, 3, 2)>, /* SSLA0 - SCI6_SSL */
 			 <RZV2H_PORT_PINMUX(3, 2, 2)>; /* RSPCKA - SCI6_SCLK */
 	};
+
+	gpt1_4_pins: gpt1_4 {
+		pinmux = <RZV2H_PORT_PINMUX(A, 6, 10)>; /* BL_CONTRAST_PWM-GPIO */
+	};
 };
 
 &qextal_clk {
@@ -433,13 +423,6 @@
 };
 
 &du {
-	status = "okay";
-};
-
-&i2c1 { /* I2C-C */
-	pinctrl-0 = <&i2c1_pins>;
-	pinctrl-names = "default";
-
 	status = "okay";
 };
 
@@ -474,6 +457,13 @@
 		};
 
 	};
+};
+
+&i2c1 { /* I2C-C */
+	pinctrl-0 = <&i2c1_pins>;
+	pinctrl-names = "default";
+
+	status = "okay";
 };
 
 &i2c3 { /* "GP", I2C-B */
@@ -851,10 +841,6 @@
 	shared-pin;
 };
 
-&scif {
-	status = "okay";
-};
-
 &spi0 {
 	pinctrl-0 = <&spi0_pins>;
 	pinctrl-names = "default";
@@ -868,14 +854,21 @@
 	};
 };
 
-&sci4 {
-	pinctrl-0 = <&sci4_pins>;
+/* UART-A (console) */
+&scif {
+	status = "okay";
+};
+
+/* UART-B */
+&sci2 {
+	pinctrl-0 = <&sci2_pins>;
 	pinctrl-names = "default";
 	status = "okay";
 };
 
-&sci9 {
-	pinctrl-0 = <&sci9_pins>;
+/* UART-C */
+&sci7 {
+	pinctrl-0 = <&sci7_pins>;
 	pinctrl-names = "default";
 	status = "okay";
 };
@@ -918,13 +911,13 @@
 &canfd {
 	pinctrl-0 = <&canfd_pins>;
 	pinctrl-names = "default";
-	status = "disabled"; /* Disabled. Conflict with i2c3 */
+	status = "okay";
 
 	channel1 {
 		status = "okay";
 	};
 
-	channel4 {
+	channel5 {
 		status = "okay";
 	};
 };
@@ -992,6 +985,14 @@
 
 &pcie0 {
 	status = "okay";
-	pinctrl-0 = <&pcie0_pins>;
+};
+
+/* BL_CONTRAST_PWM-GPIO used as PWM when not used as backlight (which is only for LVDS).
+   PA6 Func#10 is GPT1 GTIOC12A, and 12 % 8 is 4, 12//8 is 1 so gpt1_4. The "A" at the end
+   indicates if it should be "channel_A" or "channel_B". */
+&gpt1_4 {
+	pinctrl-0 = <&gpt1_4_pins>;
 	pinctrl-names = "default";
+	channel = "channel_A";
+	status = "okay";
 };

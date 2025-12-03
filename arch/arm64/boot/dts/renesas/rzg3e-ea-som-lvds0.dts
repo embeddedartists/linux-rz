@@ -73,6 +73,10 @@
 	};
 };
 
+&gpt1_4 {
+	status = "disabled"; /* Backlight for LVDS is the same pin as gpt1_4 */
+};
+
 &pcal6524_onboard {
 	hog_DISP_PWR_EN { /* DISP_PWR_EN */
 		gpio-hog;
