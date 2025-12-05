@@ -559,11 +559,6 @@
 			gpios = <19 0>;
 			output-high;
 		};
-		hog_SLS32AIA_RST {
-			gpio-hog;
-			gpios = <20 0>;
-			output-high;
-		};
 		/*hog_M2B_PWR_OFF {
 			gpio-hog;
 			gpios = <11 0>;
