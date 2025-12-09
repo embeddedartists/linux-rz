@@ -9,6 +9,17 @@
 #include "rzg3e-ea-som.dtsi"
 
 / {
+	reg_lvds1_bl: regulator-lvds1-bl {
+		compatible = "regulator-fixed";
+
+		regulator-name = "LVDS1 BL";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+
+		gpios = <&pinctrl RZV2H_GPIO(A, 6) GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+	};
+
 	panel {
 		compatible = "mitsubishi,aa104xd12", "panel-lvds";
 
@@ -16,19 +27,42 @@
 		height-mm = <158>;
 		data-mapping = "jeida-18";
 		/*backlight = <&backlight>;*/
+		power-supply = <&reg_lvds1_bl>;
 
 
 		panel-timing {
-			/* 1920x1080 @60Hz */
-			clock-frequency = <148500000>;
-			hactive = <1920>;
-			vactive = <1080>;
-			hsync-len = <44>;
-			hfront-porch = <88>;
-			hback-porch = <148>;
-			vfront-porch = <4>;
-			vback-porch = <36>;
-			vsync-len = <5>;
+			/* 1024x768 @65Hz
+			clock-frequency = <65000000>;
+			hactive = <1024>;
+			vactive = <768>;
+			hsync-len = <136>;
+			hfront-porch = <20>;
+			hback-porch = <160>;
+			vfront-porch = <3>;
+			vback-porch = <29>;
+			vsync-len = <6>;*/
+
+			/* 1280x720 @60Hz - This is for our LVDS-to-HDMI adapter
+			clock-frequency = <74250000>;
+			hactive = <1280>;
+			vactive = <720>;
+			hsync-len = <40>;
+			hfront-porch = <110>;
+			hback-porch = <220>;
+			vfront-porch = <5>;
+			vback-porch = <20>;
+			vsync-len = <5>;*/
+
+			/* 1280x800 @60Hz - This is for the Riverdi RVT121HVLFWCA0-B */
+			clock-frequency = <72400000>;
+			hactive = <1280>;
+			vactive = <800>;
+			hsync-len = <200>;
+			hfront-porch = <72>;
+			hback-porch = <68>;
+			vfront-porch = <15>;
+			vback-porch = <13>;
+			vsync-len = <10>;
 		};
 
 		port {
@@ -39,8 +73,19 @@
 	};
 };
 
+&gpt1_4 {
+	status = "disabled"; /* Backlight for LVDS is the same pin as gpt1_4 */
+};
+
+&pcal6524_onboard {
+	hog_DISP_PWR_EN { /* DISP_PWR_EN */
+		gpio-hog;
+		gpios = <1 0>;
+		output-high;
+	};
+};
+
 &lvds1 {
-	/delete-property/ renesas,companion;
 	status = "okay";
 
 	ports {

@@ -1,0 +1,104 @@
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+/*
+ * Device Tree Source for the Embedded Artists RZ/G3E SOM Board
+ *
+ * Copyright (C) 2025 Embedded Artists AB.
+ */
+
+/dts-v1/;
+#include "rzg3e-ea-som.dtsi"
+
+/ {
+	lvds-to-hdmi-out {
+		compatible = "hdmi-connector";
+		type = "d";
+
+		port {
+			lvds_to_hdmi_con_out: endpoint {
+				remote-endpoint = <&panel_out>;
+			};
+		};
+	};
+
+	panel {
+		compatible = "mitsubishi,aa104xd12", "panel-lvds";
+
+		width-mm = <210>;
+		height-mm = <158>;
+		data-mapping = "jeida-18";
+		/*backlight = <&backlight>;*/
+
+
+		panel-timing {
+			/* 1920x1080 @60Hz */
+			clock-frequency = <148500000>;
+			hactive = <1920>;
+			vactive = <1080>;
+			hsync-len = <44>;
+			hfront-porch = <88>;
+			hback-porch = <148>;
+			vfront-porch = <4>;
+			vback-porch = <36>;
+			vsync-len = <5>;
+		};
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+				dual-lvds-odd-pixels;
+				lvds0_in0: endpoint@0 {
+					remote-endpoint = <&lvds0_out>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+				dual-lvds-even-pixels;
+				lvds0_in1: endpoint@1 {
+					remote-endpoint = <&lvds1_out>;
+				};
+			};
+
+			port@2 {
+				reg = <2>;
+				panel_out: endpoint@2 {
+					remote-endpoint = <&lvds_to_hdmi_con_out>;
+				};
+			};
+		};
+	};
+};
+
+&lvds {
+	status = "okay";
+};
+
+&lvds0 {
+	status = "okay";
+
+	ports {
+		port@1 {
+			lvds0_out: endpoint {
+				remote-endpoint = <&lvds0_in0>;
+			};
+		};
+	};
+};
+
+&lvds1 {
+	clocks = <&cpg CPG_MOD 416>,
+		 <&cpg CPG_MOD 418>;
+
+	status = "okay";
+
+	ports {
+		port@1 {
+			lvds1_out: endpoint {
+				remote-endpoint = <&lvds0_in1>;
+			};
+		};
+	};
+};
