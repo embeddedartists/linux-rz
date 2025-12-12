@@ -559,16 +559,16 @@
 			gpios = <19 0>;
 			output-high;
 		};
-		/*hog_M2B_PWR_OFF {
+		hog_M2B_PWR_OFF {
 			gpio-hog;
 			gpios = <11 0>;
 			output-high;
-		};*/
-		/*hog_M2B_WDISABLE {
+		};
+		hog_M2B_WDISABLE {
 			gpio-hog;
 			gpios = <12 0>;
 			output-high;
-		};*/
+		};
 		hog_M2M_PERST { /* To use M.2 M-key (deepx) slot on carrier board */
 			gpio-hog;
 			gpios = <15 0>;
