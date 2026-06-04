@@ -396,6 +396,7 @@
 	usb3_pins: usb3 {
 		pinmux = <RZV2H_PORT_PINMUX(4, 1, 12)>, /* VBUS */
 			 <RZV2H_PORT_PINMUX(4, 0, 12)>; /* OVR */
+		bias-pull-up;
 	};
 
 	spi0_pins: spi0 {
